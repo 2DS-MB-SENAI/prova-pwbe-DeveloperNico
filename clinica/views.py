@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Medico, Consulta
-from .forms import ConsultaForm
+from .forms import ConsultaForm, PesquisaEspecialidade
 
 def listar_medico(request):
     medicos = Medico.objects.all()
@@ -19,3 +19,18 @@ def criar_consulta(request):
     else:
         form = ConsultaForm()
     return render(request, 'clinica/form_consulta.html', {'form': form})
+
+def pesquisa_especialidade(request):
+    form = PesquisaEspecialidade(request.GET)
+    medicos = Medico.objects.all()
+
+    if form.is_valid():
+        especialidade = form.cleaned_data.get('especialidade')
+        medico = form.cleaned_data.get('medico')
+
+        if especialidade:
+            medicos = medicos.filter(especialidade=especialidade)
+        if medico:
+            medicos = medicos.filter(medico=medico)
+    
+    return render(request, 'clinica/pesquisa_especialidade.html', {'form': form, 'medicos': medicos})

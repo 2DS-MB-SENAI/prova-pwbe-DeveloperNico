@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET" action="{% url 'pesquisa_especialidade' %}">
+        <label for="id_titulo">Especialidade:</label>
+        <input type="text" name="especialidade" id="id_especialidade" value="{{ form.especialidade.value }}">
+        
+    
+        <button type="submit">Pesquisar</button>
+    </form>
+    
+    <h2>Médicos encontrados:</h2>
+    <ul>
+        {% for medico in medicos %}
+            <li>{{ medico.especialidade }} - {{ medico.nome_medico }}</li>
+        {% empty %}
+            <li>Nenhum medico encontrado.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
