@@ -25,12 +25,12 @@ def pesquisa_especialidade(request):
     medicos = Medico.objects.all()
 
     if form.is_valid():
-        especialidade = form.cleaned_data.get('especialidade')
+        especialidade = request.GET.get('especialidade')
         medico = form.cleaned_data.get('medico')
 
         if especialidade:
-            medicos = medicos.filter(especialidade=especialidade)
+            medicos = medicos.filter(especialidade__icontains=especialidade)
         if medico:
-            medicos = medicos.filter(medico=medico)
+            medicos = medicos.filter(medico__icontains=medico)
     
     return render(request, 'clinica/pesquisa_especialidade.html', {'form': form, 'medicos': medicos})
